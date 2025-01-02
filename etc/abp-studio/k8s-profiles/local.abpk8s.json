@@ -1,0 +1,10 @@
+{
+  "config": {
+    "context": "docker-desktop",
+    "namespace": "alfa5-local"
+  },
+  "metadata": {
+    "dotnetEnvironment": "Staging"
+  },
+  "services": {}
+}

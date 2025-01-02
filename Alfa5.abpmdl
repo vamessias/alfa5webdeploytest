@@ -1,0 +1,149 @@
+{
+  "template": "app",
+  "imports": {
+    "Volo.Abp.LeptonXTheme": {
+      "version": "4.0.1",
+      "isInstalled": true
+    },
+    "Volo.Abp.TextTemplateManagement": {
+      "version": "9.0.1",
+      "isInstalled": true
+    },
+    "Volo.Chat": {
+      "version": "9.0.1",
+      "isInstalled": true
+    },
+    "Volo.Abp.LanguageManagement": {
+      "version": "9.0.1",
+      "isInstalled": true
+    },
+    "Volo.FileManagement": {
+      "version": "9.0.1",
+      "isInstalled": true
+    },
+    "Volo.Abp.OpenIddict.Pro": {
+      "version": "9.0.1",
+      "isInstalled": true
+    },
+    "Volo.Abp.Gdpr": {
+      "version": "9.0.1",
+      "isInstalled": true
+    },
+    "Volo.Abp.AuditLogging.Pro": {
+      "version": "9.0.1",
+      "isInstalled": true
+    },
+    "Volo.CmsKit.Pro": {
+      "version": "9.0.1",
+      "isInstalled": true
+    },
+    "Volo.Saas": {
+      "version": "9.0.1",
+      "isInstalled": true
+    },
+    "Volo.Abp.Identity.Pro": {
+      "version": "9.0.1",
+      "isInstalled": true
+    },
+    "Volo.Abp.Account.Pro": {
+      "version": "9.0.1",
+      "isInstalled": true
+    },
+    "Volo.Abp.SettingManagement": {
+      "version": "9.0.1",
+      "isInstalled": true
+    },
+    "Volo.Abp.PermissionManagement": {
+      "version": "9.0.1",
+      "isInstalled": true
+    },
+    "Volo.Abp.FeatureManagement": {
+      "version": "9.0.1",
+      "isInstalled": true
+    }
+  },
+  "folders": {
+    "items": {
+      "src": {},
+      "test": {}
+    }
+  },
+  "packages": {
+    "Alfa5.Application": {
+      "path": "src/Alfa5.Application/Alfa5.Application.abppkg",
+      "folder": "src"
+    },
+    "Alfa5.Application.Tests": {
+      "path": "test/Alfa5.Application.Tests/Alfa5.Application.Tests.abppkg",
+      "folder": "test"
+    },
+    "Alfa5.Domain.Shared": {
+      "path": "src/Alfa5.Domain.Shared/Alfa5.Domain.Shared.abppkg",
+      "folder": "src"
+    },
+    "Alfa5.Application.Contracts": {
+      "path": "src/Alfa5.Application.Contracts/Alfa5.Application.Contracts.abppkg",
+      "folder": "src"
+    },
+    "Alfa5.HttpApi": {
+      "path": "src/Alfa5.HttpApi/Alfa5.HttpApi.abppkg",
+      "folder": "src"
+    },
+    "Alfa5.HttpApi.Client": {
+      "path": "src/Alfa5.HttpApi.Client/Alfa5.HttpApi.Client.abppkg",
+      "folder": "src"
+    },
+    "Alfa5.AuthServer": {
+      "path": "src/Alfa5.AuthServer/Alfa5.AuthServer.abppkg",
+      "folder": "src"
+    },
+    "Alfa5.HttpApi.Host": {
+    "path": "src/Alfa5.HttpApi.Host/Alfa5.HttpApi.Host.abppkg",
+    "folder": "src"
+    },
+    "Alfa5.EntityFrameworkCore.Tests": {
+      "path": "test/Alfa5.EntityFrameworkCore.Tests/Alfa5.EntityFrameworkCore.Tests.abppkg",
+      "folder": "test"
+    },
+    "Alfa5.EntityFrameworkCore": {
+      "path": "src/Alfa5.EntityFrameworkCore/Alfa5.EntityFrameworkCore.abppkg",
+      "folder": "src"
+    },
+    "Alfa5.TestBase": {
+      "path": "test/Alfa5.TestBase/Alfa5.TestBase.abppkg",
+      "folder": "test"
+    },
+    "Alfa5.Domain.Tests": {
+      "path": "test/Alfa5.Domain.Tests/Alfa5.Domain.Tests.abppkg",
+      "folder": "test"
+    },
+    "Alfa5.HttpApi.Client.ConsoleTestApp": {
+      "path": "test/Alfa5.HttpApi.Client.ConsoleTestApp/Alfa5.HttpApi.Client.ConsoleTestApp.abppkg",
+      "folder": "test"
+    },
+    "Alfa5.DbMigrator": {
+      "path": "src/Alfa5.DbMigrator/Alfa5.DbMigrator.abppkg",
+      "folder": "src"
+    },
+    "Alfa5.Web.Public": {
+      "path": "src/Alfa5.Web.Public/Alfa5.Web.Public.abppkg",
+      "folder": "src"
+    },
+    "Alfa5.Blazor": {
+      "path": "src/Alfa5.Blazor/Alfa5.Blazor.abppkg",
+      "folder": "src"
+    },
+    "Alfa5.Blazor.Client": {
+      "path": "src/Alfa5.Blazor.Client/Alfa5.Blazor.Client.abppkg",
+      "folder": "src"
+    },
+    "Alfa5.Maui": {
+      "path": "src/Alfa5.Maui/Alfa5.Maui.abppkg",
+      "folder": "src"
+    },
+    "Alfa5.Domain": {
+      "path": "src/Alfa5.Domain/Alfa5.Domain.abppkg",
+      "folder": "src"
+    }
+  }
+}

@@ -1,0 +1,4 @@
+image:
+  repository: "alfa5/httpapihost"
+  tag: "latest"
+  pullPolicy: IfNotPresent

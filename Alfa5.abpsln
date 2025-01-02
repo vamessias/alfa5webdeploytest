@@ -1,0 +1,203 @@
+{
+  "id": "a0282eec-d301-45ff-b4cb-a37b92d366dc",
+  "template": "app",
+  "versions": {
+    "LeptonX": "4.0.1",
+    "AbpFramework": "9.0.1",
+    "AbpCommercial": "9.0.1",
+    "AbpStudio": "0.9.15",
+    "TargetDotnetFramework": "net9.0"
+  },
+  "modules": {
+    "Alfa5": {
+      "path": "Alfa5.abpmdl"
+    }
+  },
+  "runProfiles": {
+    "Default": {
+      "path": "etc/abp-studio/run-profiles/Default.abprun.json"
+    }
+  },
+  "k8sProfiles": {
+    "local": {
+      "path": "etc/abp-studio/k8s-profiles/local.abpk8s.json"
+    }
+  },
+  "commands": {
+    "helmBuildDotnetImage": {
+      "triggerTargets": [
+        "HELM_CHARTS_ROOT",
+        "HELM_MAIN_CHART",
+        "HELM_SUB_CHART"
+      ],
+      "executionTargets": [
+        "HELM_MAIN_CHART",
+        "HELM_SUB_CHART"
+      ],
+      "displayName": "Build Docker Image(s)",
+      "workingDirectory": "etc/helm",
+      "terminalCommand": "./build-image.ps1 -ProjectPath {{metadata.projectPath}} -ImageName {{metadata.imageName}} -ProjectType {{metadata.projectType}}",
+      "condition": "{{metadata.projectPath != null && metadata.imageName != null && metadata.projectType != null}}"
+    },
+    "helmInstallChart": {
+      "triggerTargets": [
+        "HELM_CHARTS_ROOT",
+        "HELM_MAIN_CHART"
+      ],
+      "executionTargets": [
+        "HELM_MAIN_CHART"
+      ],
+      "displayName": "Install Chart(s)",
+      "workingDirectory": "etc/helm",
+      "terminalCommand": "./install.ps1 -ChartName {{chart.name}} -Namespace {{profile.namespace}} -ReleaseName {{chart.name}}-{{profile.name}} -DotnetEnvironment {{metadata.dotnetEnvironment}} {{~if metadata.k8ssuffix}} -User {{metadata.k8ssuffix}}{{end}}",
+      "requireConfirmation": "true",
+      "confirmationText": "Are you sure to install the chart(s) for the profile {{ profile.name }}?"
+    },
+    "helmUninstallChart": {
+      "triggerTargets": [
+        "HELM_CHARTS_ROOT",
+        "HELM_MAIN_CHART"
+      ],
+      "executionTargets": [
+        "HELM_MAIN_CHART"
+      ],
+      "displayName": "Uninstall Chart(s)",
+      "workingDirectory": "etc/helm",
+      "terminalCommand": "./uninstall.ps1 -Namespace {{profile.namespace}} -ReleaseName {{chart.name}}-{{profile.name}} {{~if metadata.k8ssuffix}} -User {{metadata.k8ssuffix}}{{end}}",
+      "requireConfirmation": "true",
+      "confirmationText": "Are you sure to uninstall the chart(s) for the profile {{profile.name}}?"
+    },
+    "kubernetesRedeploy": {
+      "triggerTargets": [
+        "KUBERNETES_SERVICE"
+      ],
+      "executionTargets": [
+        "KUBERNETES_SERVICE"
+      ],
+      "displayName": "Redeploy",
+      "workingDirectory": "etc/helm",
+      "terminalCommand": "./build-image.ps1 -ProjectPath {{chart.metadata.projectPath}} -ImageName {{chart.metadata.imageName}} -ProjectType {{chart.metadata.projectType}} &&& ./install.ps1 -ChartName {{mainChart.name}} -Namespace {{profile.namespace}} -ReleaseName {{mainChart.name}}-{{profile.name}} -DotnetEnvironment {{mainChart.metadata.dotnetEnvironment}} {{~if metadata.k8ssuffix}} -User {{metadata.k8ssuffix}}{{end}}",
+      "requireConfirmation": "true",
+      "confirmationText": "Are you sure to redeploy the related chart '{{chart.name}}' for the service '{{name}}'?",
+      "condition": "{{chart != null && chart.metadata.projectPath != null && chart.metadata.imageName != null && chart.metadata.projectType != null}}"
+    },
+    "createTlsSecret": {
+      "triggerTargets": [
+        "HELM_CHARTS_ROOT"
+      ],
+      "executionTargets": [
+        "HELM_CHARTS_ROOT"
+      ],
+      "displayName": "Create Self-Signed TLS secret",
+      "workingDirectory": "etc/helm",
+      "terminalCommand": "./create-tls-secrets.ps1 -Namespace {{profile.namespace}} {{~if metadata.k8ssuffix}} -User {{metadata.k8ssuffix}}{{end}}"
+    }
+  },
+  "helm": {
+    "charts": {
+      "alfa5": {
+        "name": "alfa5",
+        "path": "etc/helm/alfa5",
+        "charts": {
+          "authserver": {
+            "name": "authserver",
+            "path": "etc/helm/alfa5/charts/authserver",
+            "metadata": {
+              "projectPath": "../../src/Alfa5.AuthServer/Alfa5.AuthServer.csproj",
+              "imageName": "alfa5/authserver",
+              "projectType": "dotnet"
+            },
+            "services": [
+              ".*-authserver"
+            ]
+          },
+          "blazorwebapp": {
+            "name": "blazorwebapp",
+            "path": "etc/helm/alfa5/charts/blazorwebapp",
+            "metadata": {
+              "projectPath": "../../src/Alfa5.Blazor/Alfa5.Blazor.csproj",
+              "imageName": "alfa5/blazorwebapp",
+              "projectType": "dotnet"
+            },
+            "services": [
+              ".*-blazorwebapp"
+            ]
+          },
+          "dbmigrator": {
+            "name": "dbmigrator",
+            "path": "etc/helm/alfa5/charts/dbmigrator",
+            "metadata": {
+              "projectPath": "../../src/Alfa5.DbMigrator/Alfa5.DbMigrator.csproj",
+              "imageName": "alfa5/dbmigrator",
+              "projectType": "dotnet"
+            },
+            "services": [
+              ".*-dbmigrator"
+            ]
+          },
+          "httpapihost": {
+            "name": "httpapihost",
+            "path": "etc/helm/alfa5/charts/httpapihost",
+            "metadata": {
+              "projectPath": "../../src/Alfa5.HttpApi.Host/Alfa5.HttpApi.Host.csproj",
+              "imageName": "alfa5/httpapihost",
+              "projectType": "dotnet"
+            },
+            "services": [
+              ".*-httpapihost"
+            ]
+          },
+          "rabbitmq": {
+            "name": "rabbitmq",
+            "path": "etc/helm/alfa5/charts/rabbitmq"
+          },
+          "redis": {
+            "name": "redis",
+            "path": "etc/helm/alfa5/charts/redis"
+          },
+          "sqlserver": {
+            "name": "sqlserver",
+            "path": "etc/helm/alfa5/charts/sqlserver"
+          },
+          "webpublic": {
+            "name": "webpublic",
+            "path": "etc/helm/alfa5/charts/webpublic",
+            "metadata": {
+              "projectPath": "../../src/Alfa5.Web.Public/Alfa5.Web.Public.csproj",
+              "imageName": "alfa5/webpublic",
+              "projectType": "dotnet"
+            },
+            "services": [
+              ".*-webpublic"
+            ]
+          },
+        },
+        "metadata": {}
+      }
+    }
+  },
+  "options": {
+    "httpRequests": {
+      "ignoredUrls": [
+        "^/metrics$"
+      ]
+    }
+  },
+  "creatingStudioConfiguration": {
+    "template": "app",
+    "createdAbpStudioVersion": "0.9.15",
+    "tiered": "true",
+    "multiTenancy": "true",
+    "includeTests": "true",
+    "uiFramework": "blazor-webapp",
+    "databaseProvider": "ef",
+    "databaseManagementSystem": "sqlserver",
+    "separateTenantSchema": "true",
+    "theme": "leptonx",
+    "themeStyle": "system",
+    "mobileFramework": "maui",
+    "publicWebsite": "true",
+    "optionalModules": "GDPR FileManagement TextTemplateManagement LanguageManagement AuditLogging Chat OpenIddictAdmin",
+    "socialLogin": ""
+  }
+}

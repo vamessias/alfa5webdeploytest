@@ -1,0 +1,4 @@
+image:
+  repository: "alfa5/authserver"
+  tag: "latest"
+  pullPolicy: IfNotPresent
