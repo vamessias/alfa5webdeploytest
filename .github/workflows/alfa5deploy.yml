@@ -18,6 +18,13 @@ jobs:
       with:
         dotnet-version: '9.0'
 
+    - name: Install Chocolatey
+      run: |
+        Set-ExecutionPolicy Bypass -Scope Process -Force; 
+        [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.SecurityProtocolType]::Tls12;
+        Invoke-WebRequest https://community.chocolatey.org/install.ps1 -OutFile install.ps1;
+        .\install.ps1;
+        
     - name: Install Android SDK using Chocolatey
       run: choco install android-sdk -y  # Instala o Android SDK
     
