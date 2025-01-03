@@ -17,6 +17,9 @@ jobs:
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: '9.0'
+
+    - name: Install Android SDK using Chocolatey
+      run: choco install android-sdk -y  # Instala o Android SDK
     
     - name: Install MAUI Workloads
       run: dotnet workload restore
