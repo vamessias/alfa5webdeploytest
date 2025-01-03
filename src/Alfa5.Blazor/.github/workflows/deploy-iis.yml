@@ -1,0 +1,44 @@
+name: Deploy to IIS using Web Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: self-hosted
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '9.0'
+    
+    - name: Remove ABP NuGet source if exists
+      run: |
+        dotnet nuget remove source ABP
+        if ($?) { Write-Host "Source ABP removed." } else { Write-Host "Source ABP not found." }
+
+    - name: Add ABP NuGet source
+      run: dotnet nuget add source https://nuget.abp.io/5ff67233-4e05-4f13-b752-2610bc79f1e3/v3/index.json --name ABP --username Chrisalves --password Desenvolvedor01@
+
+    - name: Restore dependencies
+      run: dotnet restore
+
+    - name: Build project
+      run: dotnet build --configuration Release --no-restore
+
+    - name: Publish application
+      run: dotnet publish -c Release -o ./publish
+
+    - name: Deploy using Web Deploy
+      run: |
+        "C:\Program Files\IIS\Microsoft Web Deploy V3\msdeploy.exe" `
+        -verb:sync `
+        -source:contentPath="./publish" `
+        -dest:iisApp="webdeployblazor",wmsvc=52.168.74.165,username="sdtweb01\opsadmin",password=AbacateDoce@01,authType=Basic `
+        -allowUntrusted
