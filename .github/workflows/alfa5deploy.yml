@@ -23,6 +23,9 @@ jobs:
         $env:PATH += ";C:\ProgramData\chocolatey\bin"
         echo $env:PATH
 
+    - name: Upgrade Chocolatey
+      run: choco upgrade chocolatey -y
+
     - name: Install Android SDK using Chocolatey
       run: choco install android-sdk -y  # Instala o Android SDK
     
