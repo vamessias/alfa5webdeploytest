@@ -27,12 +27,15 @@ jobs:
     - name: Publish AuthServer
       run: dotnet publish ./src/Alfa5.AuthServer/Alfa5.AuthServer.csproj -c Release -o ./publish/AuthServer
 
+    - name: List published files
+      run: dir ./publish/AuthServer
+
     - name: Deploy AuthServer using Web Deploy
       run: |
         & "C:\Program Files\IIS\Microsoft Web Deploy V3\msdeploy.exe" `
         -verb:sync `
         -source:contentPath=./publish/AuthServer `
-        -dest:iisApp=webdepauthserveralfa5,wmsvc=52.168.74.165,username=sdtweb01\opsadmin,password=AbacateDoce@01,authType=Basic `
+        -dest:iisApp=webdepauthserveralfa5,wmsvc=https://52.168.74.165:8172/msdeploy.axd,username=sdtweb01\opsadmin,password=AbacateDoce@01,authType=Basic `
         -allowUntrusted
 
     - name: Publish Blazor
@@ -43,7 +46,7 @@ jobs:
         & "C:\Program Files\IIS\Microsoft Web Deploy V3\msdeploy.exe" `
         -verb:sync `
         -source:contentPath=./publish/Blazor `
-        -dest:iisApp=webdepblazoralfa5,wmsvc=52.168.74.165,username=sdtweb01\opsadmin,password=AbacateDoce@01,authType=Basic `
+        -dest:iisApp=webdepblazoralfa5,wmsvc=https://52.168.74.165:8172/msdeploy.axd,username=sdtweb01\opsadmin,password=AbacateDoce@01,authType=Basic `
         -allowUntrusted
 
     - name: Publish HttpApiHost
@@ -54,5 +57,5 @@ jobs:
         & "C:\Program Files\IIS\Microsoft Web Deploy V3\msdeploy.exe" `
         -verb:sync `
         -source:contentPath=./publish/HttpApi.Host `
-        -dest:iisApp=webdephttpapihostalfa5,wmsvc=52.168.74.165,username=sdtweb01\opsadmin,password=AbacateDoce@01,authType=Basic `
+        -dest:iisApp=webdephttpapihostalfa5,wmsvc=https://52.168.74.165:8172/msdeploy.axd,username=sdtweb01\opsadmin,password=AbacateDoce@01,authType=Basic `
         -allowUntrusted
