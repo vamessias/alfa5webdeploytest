@@ -7,7 +7,7 @@ on:
 
 jobs:
   build-and-deploy:
-    runs-on: self-hosted
+    runs-on: windows-latest
 
     steps:
     - name: Checkout code
@@ -18,47 +18,41 @@ jobs:
       with:
         dotnet-version: '9.0'
     
-    - name: Install MAUI Workloads
-      run: dotnet workload restore
-    
     - name: Restore dependencies
       run: dotnet restore
 
     - name: Build project
       run: dotnet build --configuration Release 
 
-    # Publicar e Deploy do AuthServer
     - name: Publish AuthServer
       run: dotnet publish ./src/Alfa5.AuthServer/Alfa5.AuthServer.csproj -c Release -o ./publish/AuthServer
 
-    - name: Deploy using Web Deploy
+    - name: Deploy AuthServer using Web Deploy
       run: |
         & "C:\Program Files\IIS\Microsoft Web Deploy V3\msdeploy.exe" `
-          "/verb:sync" `
-          "/source:contentPath=./publish/AuthServer" `
-          "/dest:iisApp=webdepauthserveralfa5,wmsvc=52.168.74.165,username=sdtweb01\opsadmin,password=AbacateDoce@01,authType=Basic" `
-          "/allowUntrusted"
+        -verb:sync `
+        -source:contentPath="./publish/AuthServer" `
+        -dest:iisApp="webdepauthserveralfa5",wmsvc=52.168.74.165,username="sdtweb01\opsadmin",password="AbacateDoce@01",authType=Basic `
+        -allowUntrusted
 
-    # Publicar e Deploy do Blazor
     - name: Publish Blazor
       run: dotnet publish ./src/Alfa5.Blazor/Alfa5.Blazor.csproj -c Release -o ./publish/Blazor
 
-    - name: Deploy using Web Deploy
+    - name: Deploy Blazor using Web Deploy
       run: |
         & "C:\Program Files\IIS\Microsoft Web Deploy V3\msdeploy.exe" `
-          "/verb:sync" `
-          "/source:contentPath=./publish/Blazor" `
-          "/dest:iisApp=webdepblazoralfa5,wmsvc=52.168.74.165,username=sdtweb01\opsadmin,password=AbacateDoce@01,authType=Basic" `
-          "/allowUntrusted"
+        -verb:sync `
+        -source:contentPath="./publish/Blazor" `
+        -dest:iisApp="webdepblazoralfa5",wmsvc=52.168.74.165,username="sdtweb01\opsadmin",password="AbacateDoce@01",authType=Basic `
+        -allowUntrusted
 
-    # Publicar e Deploy do HttpApiHost
     - name: Publish HttpApiHost
       run: dotnet publish ./src/Alfa5.HttpApi.Host/Alfa5.HttpApi.Host.csproj -c Release -o ./publish/HttpApi.Host
 
-    - name: Deploy using Web Deploy
+    - name: Deploy HttpApiHost using Web Deploy
       run: |
         & "C:\Program Files\IIS\Microsoft Web Deploy V3\msdeploy.exe" `
-          "/verb:sync" `
-          "/source:contentPath=./publish/HttpApi.Host" `
-          "/dest:iisApp=webdephttpapihostalfa5,wmsvc=52.168.74.165,username=sdtweb01\opsadmin,password=AbacateDoce@01,authType=Basic" `
-          "/allowUntrusted"
+        -verb:sync `
+        -source:contentPath="./publish/HttpApi.Host" `
+        -dest:iisApp="webdephttpapihostalfa5",wmsvc=52.168.74.165,username="sdtweb01\opsadmin",password="AbacateDoce@01",authType=Basic `
+        -allowUntrusted
