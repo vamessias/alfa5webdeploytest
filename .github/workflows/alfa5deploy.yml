@@ -28,7 +28,7 @@ jobs:
       run: dotnet publish ./src/Alfa5.AuthServer/Alfa5.AuthServer.csproj -c Release -o ./publish/AuthServer
 
     - name: List published files
-    run: dir ./publish/AuthServer
+      run: dir ./publish/AuthServer
 
     - name: Deploy AuthServer using Web Deploy
       run: |
