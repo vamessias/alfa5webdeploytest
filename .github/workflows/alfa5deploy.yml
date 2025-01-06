@@ -35,7 +35,7 @@ jobs:
         & "C:\Program Files\IIS\Microsoft Web Deploy V3\msdeploy.exe" `
         -verb:sync `
         -source:contentPath=./publish/AuthServer `
-        -dest:computerName=https://52.168.74.165:8172/msdeploy.axd,siteName=webdepauthserveralfa5,username=sdtweb01\opsadmin,password=AbacateDoce@01,authType=Basic `
+        -dest:iisApp=webdepauthserveralfa5,wmsvc=https://52.168.74.165:8172/msdeploy.axd ,username=sdtweb01\opsadmin,password=AbacateDoce@01,authType=Basic `
         -allowUntrusted
 
     - name: Publish Blazor
