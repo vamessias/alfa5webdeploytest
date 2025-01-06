@@ -30,10 +30,10 @@ jobs:
 
     - name: Deploy using Web Deploy
       run: |
-        "C:\Program Files\IIS\Microsoft Web Deploy V3\msdeploy.exe"  `
-        -source:contentPath="./publish/AuthServer" `
-        -dest:iisApp="webdepauthserveralfa5",wmsvc=52.168.74.165,username="sdtweb01\opsadmin",password="AbacateDoce@01",authType=Basic `
-        -allowUntrusted
+        "C:\Program Files\IIS\Microsoft Web Deploy V3\msdeploy.exe" verb:sync `
+        source:contentPath="./publish/AuthServer" `
+        dest:iisApp="webdepauthserveralfa5",wmsvc=52.168.74.165,username="sdtweb01\opsadmin",password="AbacateDoce@01",authType=Basic `
+        allowUntrusted
 
     # Publicar e Deploy do Blazor
     - name: Publish Blazor
@@ -41,10 +41,10 @@ jobs:
 
     - name: Deploy using Web Deploy
       run: |
-        "C:\Program Files\IIS\Microsoft Web Deploy V3\msdeploy.exe"  `
-        -source:contentPath="./publish/Blazor" `
-        -dest:iisApp="webdepblazoralfa5",wmsvc=52.168.74.165,username="sdtweb01\opsadmin",password="AbacateDoce@01",authType=Basic `
-        -allowUntrusted
+        "C:\Program Files\IIS\Microsoft Web Deploy V3\msdeploy.exe" verb:sync `
+        source:contentPath="./publish/Blazor" `
+        dest:iisApp="webdepblazoralfa5",wmsvc=52.168.74.165,username="sdtweb01\opsadmin",password="AbacateDoce@01",authType=Basic `
+        allowUntrusted
 
     # Publicar e Deploy do HttpApiHost
     - name: Publish HttpApiHost
@@ -52,7 +52,7 @@ jobs:
 
     - name: Deploy using Web Deploy
       run: |
-        "C:\Program Files\IIS\Microsoft Web Deploy V3\msdeploy.exe"  `
-        -source:contentPath="./publish/HttpApi.Host" `
-        -dest:iisApp="webdephttpapihostalfa5",wmsvc=52.168.74.165,username="sdtweb01\opsadmin",password="AbacateDoce@01",authType=Basic `
-        -allowUntrusted
+        "C:\Program Files\IIS\Microsoft Web Deploy V3\msdeploy.exe" verb:sync `
+        source:contentPath="./publish/HttpApi.Host" `
+        dest:iisApp="webdephttpapihostalfa5",wmsvc=52.168.74.165,username="sdtweb01\opsadmin",password="AbacateDoce@01",authType=Basic `
+        allowUntrusted
