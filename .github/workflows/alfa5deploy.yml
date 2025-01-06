@@ -30,7 +30,7 @@ jobs:
 
     - name: Deploy using Web Deploy
       run: |
-        "C:\Program Files\IIS\Microsoft Web Deploy V3\msdeploy.exe" -verb:sync `
+        "C:\Program Files\IIS\Microsoft Web Deploy V3\msdeploy.exe"  `
         -source:contentPath="./publish/AuthServer" `
         -dest:iisApp="webdepauthserveralfa5",wmsvc=52.168.74.165,username="sdtweb01\opsadmin",password="AbacateDoce@01",authType=Basic `
         -allowUntrusted
@@ -41,7 +41,7 @@ jobs:
 
     - name: Deploy using Web Deploy
       run: |
-        "C:\Program Files\IIS\Microsoft Web Deploy V3\msdeploy.exe" -verb:sync `
+        "C:\Program Files\IIS\Microsoft Web Deploy V3\msdeploy.exe"  `
         -source:contentPath="./publish/Blazor" `
         -dest:iisApp="webdepblazoralfa5",wmsvc=52.168.74.165,username="sdtweb01\opsadmin",password="AbacateDoce@01",authType=Basic `
         -allowUntrusted
@@ -52,7 +52,7 @@ jobs:
 
     - name: Deploy using Web Deploy
       run: |
-        "C:\Program Files\IIS\Microsoft Web Deploy V3\msdeploy.exe" -verb:sync `
+        "C:\Program Files\IIS\Microsoft Web Deploy V3\msdeploy.exe"  `
         -source:contentPath="./publish/HttpApi.Host" `
         -dest:iisApp="webdephttpapihostalfa5",wmsvc=52.168.74.165,username="sdtweb01\opsadmin",password="AbacateDoce@01",authType=Basic `
         -allowUntrusted
