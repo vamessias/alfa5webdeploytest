@@ -24,10 +24,14 @@ jobs:
           dotnet build --configuration Release
           dotnet publish ./src/Alfa5.AuthServer/Alfa5.AuthServer.csproj -c Release -o ./publish/AuthServer
 
+      - name: Clean Publish Directory
+        run: rm -rf ./publish/AuthServer/*
+
       - name: Deploy AuthServer using Web Deploy
         uses: cschleiden/webdeploy-action@v1
         with:
           package: ./publish/AuthServer
+          webSiteName: 'webdepauthserveralfa5' 
           publishProfile: ${{ secrets.WEBDEPLOY_PUBLISH_PROFILE }} 
 
       - name: Check Deployment Success
