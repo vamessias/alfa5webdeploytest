@@ -34,7 +34,7 @@ jobs:
       run: |
         & "C:\Program Files\IIS\Microsoft Web Deploy V3\msdeploy.exe" `
         -verb:sync `
-        -source:contentPath=./publish/AuthServer `
+        -source:contentPath=C:\Users\opsadmin\actions-runner-2\_work\alfa5webdeploytest\alfa5webdeploytest\publish\AuthServer `
         -dest:iisApp=webdepauthserveralfa5,wmsvc=https://52.168.74.165:8172/msdeploy.axd,username=sdtweb01\opsadmin,password=AbacateDoce@01,authType=Basic `
         -allowUntrusted
 
