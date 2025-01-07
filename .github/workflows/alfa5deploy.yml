@@ -10,42 +10,28 @@ jobs:
     runs-on: self-hosted
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: '9.0'
-    
-    - name: Restore dependencies
-      run: dotnet restore
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '9.0'
 
-    - name: Build project
-      run: dotnet build --configuration Release 
+      - name: Build and Publish
+        run: |
+          dotnet restore
+          dotnet build --configuration Release
+          dotnet publish ./src/Alfa5.AuthServer/Alfa5.AuthServer.csproj -c Release -o ./publish/AuthServer
 
-    - name: Publish AuthServer
-      run: dotnet publish ./src/Alfa5.AuthServer/Alfa5.AuthServer.csproj -c Release -o ./publish/AuthServer
-    
-    - name: Upload artifact
-      uses: actions/upload-artifact@v3
-      with:
-        name: publish-output
-        path: ./publish/AuthServer
-    
-    - name: List published files
-      run: dir ./publish/AuthServer
+      - name: Deploy AuthServer using Web Deploy
+        uses: cschleiden/webdeploy-action@v1
+        with:
+          package: ./publish/AuthServer
+          publishProfile: ${{ secrets.WEBDEPLOY_PUBLISH_PROFILE }} 
 
-    - name: Deploy AuthServer using Web Deploy
-    - uses: actions/download-artifact@v3
-      with:
-        name: publish-output
-        path: ./publish/AuthServer
-
-    - name: Use Web Deploy to deploy
-      uses: cschleiden/webdeploy-action@v1
-      with:
-        package: ./publish/AuthServer
-        publish-profile: ./publish/webdepauthserveralfa5.PublishSettings
-
-    
+      - name: Check Deployment Success
+        run: |
+          if ($LASTEXITCODE -ne 0) {
+            exit 1
+          }
