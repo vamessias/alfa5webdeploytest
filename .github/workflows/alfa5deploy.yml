@@ -26,36 +26,26 @@ jobs:
 
     - name: Publish AuthServer
       run: dotnet publish ./src/Alfa5.AuthServer/Alfa5.AuthServer.csproj -c Release -o ./publish/AuthServer
-
+    
+    - name: Upload artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: publish-output
+        path: ./publish/AuthServer
+    
     - name: List published files
       run: dir ./publish/AuthServer
 
     - name: Deploy AuthServer using Web Deploy
-      run: |
-        & "C:\Program Files\IIS\Microsoft Web Deploy V3\msdeploy.exe" `
-        -verb:sync `
-        -source:contentPath=C:\Users\opsadmin\actions-runner-2\_work\alfa5webdeploytest\alfa5webdeploytest\publish\AuthServer `
-        -dest:iisApp=webdepauthserveralfa5,wmsvc=https://52.168.74.165:8172/msdeploy.axd,username=sdtweb01\opsadmin,password=AbacateDoce@01,authType=Basic `
-        -allowUntrusted
+    - uses: actions/download-artifact@v3
+      with:
+        name: publish-output
+        path: ./publish/AuthServer
 
-    - name: Publish Blazor
-      run: dotnet publish ./src/Alfa5.Blazor/Alfa5.Blazor.csproj -c Release -o ./publish/Blazor
+    - name: Use Web Deploy to deploy
+      uses: cschleiden/webdeploy-action@v1
+      with:
+        package: ./publish/AuthServer
+        publish-profile: ./publish/webdepauthserveralfa5.PublishSettings
 
-    - name: Deploy Blazor using Web Deploy
-      run: |
-        & "C:\Program Files\IIS\Microsoft Web Deploy V3\msdeploy.exe" `
-        -verb:sync `
-        -source:contentPath=./publish/Blazor `
-        -dest:iisApp=webdepblazoralfa5,wmsvc=https://52.168.74.165:8172/msdeploy.axd,username=sdtweb01\opsadmin,password=AbacateDoce@01,authType=Basic `
-        -allowUntrusted
-
-    - name: Publish HttpApiHost
-      run: dotnet publish ./src/Alfa5.HttpApi.Host/Alfa5.HttpApi.Host.csproj -c Release -o ./publish/HttpApi.Host
-
-    - name: Deploy HttpApiHost using Web Deploy
-      run: |
-        & "C:\Program Files\IIS\Microsoft Web Deploy V3\msdeploy.exe" `
-        -verb:sync `
-        -source:contentPath=./publish/HttpApi.Host `
-        -dest:iisApp=webdephttpapihostalfa5,wmsvc=https://52.168.74.165:8172/msdeploy.axd,username=sdtweb01\opsadmin,password=AbacateDoce@01,authType=Basic `
-        -allowUntrusted
+    
